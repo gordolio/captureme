@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+
+<!--
+
+File: CaptureMe.sdef
+
+Abstract: sdef for CaptureMe.app
+
+-->
+
+<dictionary title="Capture Me Terminology">
+
+	<!--
+		STANDARD SUITE
+	-->
+	<suite name="Standard Suite" code="core"
+		description="Common classes and commands for all applications.">
+
+		<cocoa name="NSCoreSuite"/>
+
+
+		<enumeration name="save options" code="savo">
+			<enumerator name="yes" code="yes " description="Save the file."/>
+			<enumerator name="no" code="no  " description="Do not save the file."/>
+			<enumerator name="ask" code="ask "
+				description="Ask the user whether or not to save the file."/>
+		</enumeration>
+
+
+		<command name="save" code="coresave" description="Save a document.">
+			<direct-parameter type="specifier"
+				description="The document(s) or window(s) to save."/>
+			<parameter name="in" code="kfil" type="file" optional="yes"
+				description="The file in which to save the document.">
+				<cocoa key="File"/>
+			</parameter>
+			<!--
+			<parameter name="as" code="fltp" type="text" optional="yes"
+				description="The type of file to save.">
+				<cocoa key="FileType"/>
+			</parameter>
+			-->
+		</command>
+
+
+		<command name="quit" code="aevtquit" description="Quit the application.">
+			<cocoa class="NSQuitCommand"/>
+			<parameter name="saving" code="savo" type="save options" optional="yes"
+				description="Whether or not changed documents should be saved before closing.">
+				<cocoa key="SaveOptions"/>
+			</parameter>
+		</command>
+
+		<command name="count" code="corecnte"
+			description="Return the number of elements of a particular class within an object.">
+			<cocoa class="NSCountCommand"/>
+			<direct-parameter type="specifier"
+				description="the object whose elements are to be counted"/>
+			<parameter name="each" code="kocl" type="type" optional="yes"
+				description="The class of objects to be counted.">
+				<cocoa key="ObjectClass"/>
+			</parameter>
+			<result type="integer" description="the number of elements"/>
+		</command>
+
+		<command name="delete" code="coredelo" description="Delete an object.">
+			<cocoa class="NSDeleteCommand"/>
+			<direct-parameter type="specifier" description="the object to delete"/>
+		</command>
+
+
+		<command name="exists" code="coredoex" description="Verify if an object exists.">
+			<cocoa class="NSExistsCommand"/>
+			<direct-parameter type="any" description="the object in question"/>
+			<result type="boolean" description="true if it exists, false if not"/>
+		</command>
+
+		<command name="make" code="corecrel" description="Make a new object.">
+			<cocoa class="NSCreateCommand"/>
+			<parameter name="new" code="kocl" type="type"
+				description="The class of the new object.">
+				<cocoa key="ObjectClass"/>
+			</parameter>
+			<parameter name="at" code="insh" type="location specifier" optional="yes"
+				description="The location at which to insert the object.">
+				<cocoa key="Location"/>
+			</parameter>
+			<parameter name="with data" code="data" type="any" optional="yes"
+				description="The initial contents of the object.">
+				<cocoa key="ObjectData"/>
+			</parameter>
+			<parameter name="with properties" code="prdt" type="record" optional="yes"
+				description="The initial values for properties of the object.">
+				<cocoa key="KeyDictionary"/>
+			</parameter>
+			<result type="specifier" description="to the new object"/>
+		</command>
+
+		<command name="move" code="coremove" description="Move object(s) to a new location.">
+			<cocoa class="NSMoveCommand"/>
+			<direct-parameter type="specifier" description="the object(s) to move"/>
+			<parameter name="to" code="insh" type="location specifier"
+				description="The new location for the object(s).">
+				<cocoa key="ToLocation"/>
+			</parameter>
+			<result type="specifier" description="the moved object(s)"/>
+		</command>
+
+		<class name="application" code="capp"
+			description="The application's top-level scripting object.">
+			<cocoa class="NSApplication"/>
+			<property name="name" code="pnam" type="text" access="r"
+				description="The name of the application."/>
+			<property name="frontmost" code="pisf" type="boolean" access="r"
+				description="Is this the frontmost (active) application?">
+				<cocoa key="isActive"/>
+			</property>
+			<property name="version" code="vers" type="text" access="r"
+				description="The version of the application."/>
+			<element type="window" access="r">
+				<cocoa key="orderedWindows"/>
+			</element>
+			<responds-to name="open">
+				<cocoa method="handleOpenScriptCommand:"/>
+			</responds-to>
+			<responds-to name="quit">
+				<cocoa method="handleQuitScriptCommand:"/>
+			</responds-to>
+		</class>
+
+
+		<class name="window" code="cwin" description="A window.">
+			<cocoa class="NSWindow"/>
+			<property name="name" code="pnam" type="text" access="r"
+				description="The full title of the window.">
+				<cocoa key="title"/>
+			</property>
+			<property name="id" code="ID  " type="integer" access="r"
+				description="The unique identifier of the window.">
+				<cocoa key="uniqueID"/>
+			</property>
+			<property name="index" code="pidx" type="integer"
+				description="The index of the window, ordered front to back.">
+				<cocoa key="orderedIndex"/>
+			</property>
+			<property name="bounds" code="pbnd" type="rectangle"
+				description="The bounding rectangle of the window.">
+				<cocoa key="boundsAsQDRect"/>
+			</property>
+			<property name="closeable" code="hclb" type="boolean" access="r"
+				description="Whether the window has a close box.">
+				<cocoa key="hasCloseBox"/>
+			</property>
+			<property name="minimizable" code="ismn" type="boolean" access="r"
+				description="Whether the window can be minimized.">
+				<cocoa key="isMiniaturizable"/>
+			</property>
+			<property name="minimized" code="pmnd" type="boolean"
+				description="Whether the window is currently minimized.">
+				<cocoa key="isMiniaturized"/>
+			</property>
+			<property name="resizable" code="prsz" type="boolean" access="r"
+				description="Whether the window can be resized.">
+				<cocoa key="isResizable"/>
+			</property>
+			<property name="visible" code="pvis" type="boolean"
+				description="Whether the window is currently visible.">
+				<cocoa key="isVisible"/>
+			</property>
+			<property name="zoomable" code="iszm" type="boolean" access="r"
+				description="Whether the window can be zoomed.">
+				<cocoa key="isZoomable"/>
+			</property>
+			<property name="zoomed" code="pzum" type="boolean"
+				description="Whether the window is currently zoomed.">
+				<cocoa key="isZoomed"/>
+			</property>
+			<responds-to name="close">
+				<cocoa method="handleCloseScriptCommand:"/>
+			</responds-to>
+			<responds-to name="save">
+				<cocoa method="handleSaveScriptCommand:"/>
+			</responds-to>
+		</class>
+
+	</suite>
+
+
+
+	<!--
+		SKETCH SUITE
+	-->
+	<suite name="Capture Me Suite" code="cptM" description="Capture Me specific classes and commands.">
+
+		<!-- Classes -->
+		<class name="capturer" code="capt"
+			description="Capturer class can capture portions of the screen.">
+			<cocoa class="Controller"/>
+			<!--
+			<property name="x position" code="xpos" type="real"
+				description="The x coordinate of the capture window's origin (bottom left)."/>
+			<property name="y position" code="ypos" type="real"
+				description="The y coordinate of the capture window's origin (bottom left)"/>
+			<property name="width" code="widt" type="real"
+				description="The width of the capture window."/>
+			<property name="height" code="heig" type="real"
+				description="The height of the capture window."/>
+				-->
+			<responds-to name="capture window">
+				<cocoa method="captureWindowFromScript:"/>
+			</responds-to>
+
+		</class>
+
+		<!-- Commands -->
+		<command name="capture window" code="cptmwind"
+			description="Capture the window.">
+			<cocoa class="CaptureScriptCommand"/>
+		</command>
+
+	</suite>
+
+</dictionary>

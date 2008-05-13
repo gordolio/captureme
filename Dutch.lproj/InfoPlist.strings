@@ -1,0 +1,5 @@
+﻿/* Localized versions of Info.plist keys */
+
+NSHumanReadableCopyright = "© Chimoosoft, 2007";
+CFBundleShortVersionString = "Capture Me versie 1.4";
+CFBundleGetInfoString = "Capture Me versie 1.4.1, ©2007 Chimoosoft.";
